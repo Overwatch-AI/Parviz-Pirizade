@@ -17,5 +17,6 @@ def create_llm(env):
     return ChatOpenAI(
         model="deepseek-chat",
         api_key=SecretStr(env["DEEP_SEEK_API_KEY"]),
+        base_url=env["DEEP_SEEK_API_END"],
         temperature=0.0,
     )

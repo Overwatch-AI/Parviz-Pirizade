@@ -1,21 +1,38 @@
-from langchain_huggingface import HuggingFaceEndpointEmbeddings
+
 from langchain_chroma import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings
+import os
+from pathlib import Path
 
-
-def load_embeddings(env):
+def load_embeddings(env=None):
     """
-    Create embedding model for vector store.
+    Load the all-mpnet-base-v2 embedding model and store/cache it
+    in a 'models' folder located next to this embeddings.py file.
 
-    Inputs:
-        env (dict): must contain key "HUGGING_FACE_TOKEN"
-
-    Returns:
-        HuggingFaceEndpointEmbeddings
+    Structure:
+        embeddings.py
+        models/
     """
-    return HuggingFaceEndpointEmbeddings(
-        model="sentence-transformers/all-mpnet-base-v2",
-        huggingfacehub_api_token=env["HUGGING_FACE_TOKEN"],
+
+    # Folder where this file lives (e.g. .../boeing_737/)
+    module_dir = Path(__file__).resolve().parent
+
+    # models/ next to embeddings.py
+    model_dir = module_dir / "models"
+
+    # Create the directory if it doesn't exist
+    model_dir.mkdir(parents=True, exist_ok=True)
+
+    # Tell HuggingFace to use this folder for caching models
+    os.environ["HF_HOME"] = str(model_dir)
+
+    embeddings = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-mpnet-base-v2",
+        model_kwargs={"device": "cpu"}  # or "mps" on Apple Silicon
     )
+
+    print(f"✔ Embedding model will be stored at: {model_dir}")
+    return embeddings
 
 
 def load_vector_db(env, embeddings):

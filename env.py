@@ -13,7 +13,7 @@ def load_env():
         dict with HUGGING_FACE_TOKEN, DEEP_SEEK_API_KEY, PERSIST_DIR
     """
     load_dotenv()
-    names = ["HUGGING_FACE_TOKEN", "DEEP_SEEK_API_KEY", "PERSIST_DIR"]
+    names = ["HUGGING_FACE_TOKEN", "DEEP_SEEK_API_KEY", "PERSIST_DIR","DEEP_SEEK_API_END"]
 
     missing = [name for name in names if not os.environ.get(name)]
     if missing:

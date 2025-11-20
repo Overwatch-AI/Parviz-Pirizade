@@ -34,7 +34,6 @@ This RAG pipeline answers user questions by retrieving and ranking the most rele
 In short: **semantic search finds broadly relevant content, the title-matching boosts precision, and the LLM answers using the best 5 sections.**
 
 
-
 ---
 
 # Preprocessing before chunking
@@ -96,12 +95,13 @@ Tables are stored in ***tables.json***
 
 # Explanation of the main files
 
-
 ## *pipeline.py*
 
 This file contains the  main logic of building the rag_pipeline.
 
-Here is the pseudo code for the pipeline
+Here is the  the visualisation of the pipeline
+
+![1763662576026](image/readme/1763662576026.png)
 
 
 ## *build_vector_store.py*
@@ -140,3 +140,10 @@ Contains three functions
 1. clean_tokenize ()-> accepts  a string, removes the punctuations.
 2. count_keyword_matches()-> accepts  cleaned query and  a chunk title
 3. convert_tables_to_html()-> accepts documents, if document is a table, parses  the corresponding csv file into html , and attaches it to the document_content:
+
+
+## main.py
+
+Contains the api end point /ask to send queries via json, and returns the LLM answer and  referenced pages.
+
+`

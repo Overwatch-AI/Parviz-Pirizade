@@ -147,7 +147,7 @@ def extract_chunks_by_headers(
         start = headers[i]
         end = headers[i + 1]
 
-        # --- UPDATED FUNCTION CALL ---
+    
         section_text = extract_text_by_range(doc, start, end)
 
         if section_text:
