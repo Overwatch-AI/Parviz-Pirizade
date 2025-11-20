@@ -33,7 +33,6 @@ This RAG pipeline answers user questions by retrieving and ranking the most rele
 
 In short: **semantic search finds broadly relevant content, the title-matching boosts precision, and the LLM answers using the best 5 sections.**
 
-
 ---
 
 # Preprocessing before chunking
@@ -104,6 +103,34 @@ Here is the  the visualisation of the pipeline
 ![1763662576026](image/readme/1763662576026.png)
 
 
+
+
+
+# Embedding Model Summary
+
+This project uses the **sentence-transformers/all-mpnet-base-v2** embedding model.
+
+It is a  **local** , state-of-the-art sentence embedding model designed to convert text into dense vector representations suitable for semantic search and retrieval.
+
+### Key properties:
+
+* **Model Type:** Transformer-based encoder (MPNet architecture)
+* **Vector Size:** 768 dimensions
+* **Training Objective:** Contrastive learning on large-scale NLI + paraphrase datasets
+* **Strengths:**
+  * High semantic similarity accuracy
+  * Excellent for retrieval-augmented generation (RAG)
+  * Robust on domain-specific texts (technical manuals, aviation content)
+  * Fast inference on CPU and even faster on Apple Silicon (MPS)
+
+### Why this model?
+
+* It consistently ranks among the **top performers** on semantic search benchmarks.
+* Works seamlessly with Chroma for fast vector storage and retrieval.
+* Can be run on CPU  without a problem.
+
+# Main files
+
 ## *build_vector_store.py*
 
 This script is responsible for loading json files, chunking them then storing it locally in croma_db folder.
@@ -113,7 +140,7 @@ This script is responsible for loading json files, chunking them then storing it
 Contains  two functions
 
 1. *load_vector_store()* -> loads the   local vector store and returns the chroma instance
-2. *load_embeddings()*->  returns HuggingFaceEndpointEmbeddings instance
+2. *load_embeddings()*->  returns the embedding  instance
 
 ## *llm.py*
 
@@ -141,9 +168,27 @@ Contains three functions
 2. count_keyword_matches()-> accepts  cleaned query and  a chunk title
 3. convert_tables_to_html()-> accepts documents, if document is a table, parses  the corresponding csv file into html , and attaches it to the document_content:
 
-
 ## main.py
 
 Contains the api end point /ask to send queries via json, and returns the LLM answer and  referenced pages.
 
-`
+
+
+# How to run the app
+
+After cloning the remote repo
+
+`https://github.com/perviz822/boeing_737.git`
+
+1. Create  .env file in the root folder
+   then->
+2. `pip install -r requirements.txt`
+   then->
+3. `python  build_vector_store.py`
+
+**Note**:`build_vector_store.py`will  load hugging_face embedding model locally in the rootfolder/models/ and it will create embeddings locally in `chroma_db` folder. This process might take several minutes.
+
+4. To run the fast api app
+   uvicorn main:app
+
+This command will run the application  in `localhost:8000` by default. By accessing  localhost:8000/docs, ` /ask` api end will appear.
