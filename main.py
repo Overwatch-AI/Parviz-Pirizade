@@ -14,7 +14,7 @@ class QueryRequest(BaseModel):
 
 class QueryResponse(BaseModel):
     answer: str
-    referenced_pages: List[int]
+    pages: List[int]
 
 # Global variable to hold the pipeline
 rag_chain = None
@@ -84,7 +84,7 @@ async def ask_question(request: QueryRequest):
         
         return QueryResponse(
             answer=answer_text,
-            referenced_pages=sorted(list(unique_pages))
+            pages=sorted(list(unique_pages))
         )
         
     except Exception as e:
