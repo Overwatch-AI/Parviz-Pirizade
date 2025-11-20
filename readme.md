@@ -26,21 +26,21 @@ This RAG pipeline answers user questions by retrieving and ranking the most rele
 
    1. It has improved retrieval for queries that spans multiple topics
    2. The titles in the document  are very descriptive of the content.
-4. **Filter the 25 chunks down to the top 5.**
+4. **Filter the 25 chunks down to the top 8.**
 
    After combining semantic similarity and title relevance, the system keeps only the 5 best chunks.
 
    These are the most reliable context pieces for answering the query.
-5. **Send the top 5 chunks to the LLM.**
+5. **Send the top 8 chunks to the LLM.**
 
    The selected chunks become the context for the model.
 
    The LLM uses this context to generate a grounded, manual-based answer.
 6. **Return the final answer and the source chunks.**
 
-   The system outputs the answer along with the 5 retrieved sections for traceability.
+   The system outputs the answer along with the 8 retrieved sections for traceability.
 
-In short: **semantic search finds broadly relevant content, the title-matching boosts precision, and the LLM answers using the best 5 sections.**
+In short: **semantic search finds broadly relevant content, the title-matching boosts precision, and the LLM answers using the best 8 sections.**
 
 ---
 
