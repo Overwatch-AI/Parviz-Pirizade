@@ -10,10 +10,10 @@ def load_env():
         None
 
     Returns:
-        dict with HUGGING_FACE_TOKEN, DEEP_SEEK_API_KEY, PERSIST_DIR
+        dict with DEEP_SEEK_API_KEY, PERSIST_DIR,DEEP_SEEK_API_END
     """
     load_dotenv()
-    names = ["HUGGING_FACE_TOKEN", "DEEP_SEEK_API_KEY", "PERSIST_DIR","DEEP_SEEK_API_END"]
+    names = [ "DEEP_SEEK_API_KEY", "PERSIST_DIR","DEEP_SEEK_API_END"]
 
     missing = [name for name in names if not os.environ.get(name)]
     if missing:
